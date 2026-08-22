@@ -20,6 +20,68 @@ body {
   color: var(--text);
   font-family: 'Inter', sans-serif;
 }
+body.no-scroll { overflow: hidden; }
+
+.splash {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.splash.hidden { display: none; }
+.splash-inner {
+  text-align: center;
+  max-width: 420px;
+  padding: 32px;
+}
+.splash-eyebrow {
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 18px;
+}
+.splash-title {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+.splash-text {
+  font-size: 14px;
+  color: var(--dim);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+.splash-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.splash-btn {
+  padding: 13px 40px;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  color: #101012;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+}
+.splash-btn:hover { background: #e0715f; border-color: #e0715f; }
+.splash-btn-alt {
+  background: transparent;
+  color: var(--accent);
+}
+.splash-btn-alt:hover { background: var(--accent); color: #101012; }
+
 .wrap {
   max-width: 1180px;
   margin: 0 auto;
@@ -42,8 +104,24 @@ h1 {
   font-weight: 400;
   font-size: 56px;
   line-height: 1.05;
-  margin-bottom: 64px;
+  margin-bottom: 32px;
 }
+.mode-tabs {
+  display: flex;
+  gap: 26px;
+  margin-bottom: 56px;
+}
+.mode-tab {
+  font-size: 12px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--dim);
+  cursor: pointer;
+  padding-bottom: 8px;
+  border-bottom: 1px solid transparent;
+}
+.mode-tab.active { color: var(--text); border-bottom-color: var(--accent); }
+.mode-hidden { display: none; }
 .section {
   margin-bottom: 56px;
 }
@@ -53,6 +131,12 @@ h1 {
   text-transform: uppercase;
   color: var(--dim);
   margin-bottom: 22px;
+}
+.section-note {
+  font-size: 12.5px;
+  color: var(--dim);
+  margin-bottom: 22px;
+  margin-top: -12px;
 }
 .row {
   display: flex;
@@ -138,6 +222,79 @@ h1 {
   cursor: pointer;
 }
 .custom-form button:hover { border-color: var(--accent); color: var(--accent); }
+
+.fetch-form {
+  margin-top: 4px;
+}
+.fetch-form input[type="text"] {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 8px 0;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+.fetch-form input[type="text"]:focus { outline: none; border-color: var(--accent); }
+.fetch-loc-row {
+  display: flex;
+  gap: 22px;
+  margin-bottom: 10px;
+}
+.fetch-loc-opt {
+  font-size: 12.5px;
+  color: var(--dim);
+  cursor: pointer;
+  padding-bottom: 4px;
+  border-bottom: 1px solid transparent;
+}
+.fetch-loc-opt.active {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+.fetch-rate-note {
+  font-size: 12px;
+  color: var(--dim);
+  margin-bottom: 20px;
+}
+.fetch-rate-note span {
+  color: var(--accent);
+}
+.fetch-timer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.fetch-timer-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  min-width: 70px;
+}
+.fetch-timer-cost {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  flex: 1;
+}
+.fetch-btn {
+  background: transparent;
+  border: 1px solid var(--dim);
+  color: var(--text);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0 16px;
+  height: 32px;
+  cursor: pointer;
+}
+.fetch-btn:hover { border-color: var(--accent); color: var(--accent); }
+.fetch-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.fetch-btn:disabled:hover { border-color: var(--dim); color: var(--text); }
 
 .history-row {
   padding: 14px 0;
@@ -367,13 +524,47 @@ footer {
 }
 </style>
 </head>
-<body>
+<body class="no-scroll">
+
+<div class="splash" id="splashScreen">
+  <div class="splash-inner">
+    <div class="splash-eyebrow">Family &middot; Late Night</div>
+    <div class="splash-title">Midnight Diner</div>
+    <div class="splash-text">Order off the menu, or send someone to fetch whatever you actually want. Kitchen's open, so is the errand line.</div>
+    <div class="splash-choices">
+      <button class="splash-btn" id="splashDinerBtn">Order Off The Menu</button>
+      <button class="splash-btn splash-btn-alt" id="splashFetchBtn">Send Someone To Fetch</button>
+    </div>
+  </div>
+</div>
+
 <div class="wrap">
   <div>
     <div class="eyebrow">Family &middot; Late Night</div>
     <h1>Midnight Diner</h1>
 
-    <div id="menuContainer"></div>
+    <div class="mode-tabs">
+      <span class="mode-tab" id="tabDiner" data-mode="diner">Diner</span>
+      <span class="mode-tab" id="tabFetch" data-mode="fetch">Fetch Service</span>
+    </div>
+
+    <div id="dinerSection">
+      <div id="menuContainer"></div>
+    </div>
+
+    <div class="section" id="fetchSection">
+      <div class="section-label">Fetch Service</div>
+      <div class="section-note">Need something that's not on the menu? Tell us what and where — we time it ourselves, priced after. Add as many items as you need, then tip and send whenever you're ready.</div>
+      <div class="fetch-form">
+        <input type="text" id="fetchDesc" placeholder="What do you need brought up?">
+        <div class="fetch-loc-row">
+          <span class="fetch-loc-opt active" data-loc="downstairs">Downstairs</span>
+          <span class="fetch-loc-opt" data-loc="middle">Middle Floor</span>
+          <span class="fetch-loc-opt" data-loc="room">In Your Room</span>
+        </div>
+        <button class="fetch-btn" id="fetchAddBtn">Add Item</button>
+      </div>
+    </div>
 
     <div class="section">
       <div class="section-label">Recent Orders</div>
@@ -394,7 +585,7 @@ footer {
         <input type="text" id="nameInput" placeholder="Who's ordering?">
       </div>
 
-      <div class="field">
+      <div class="field" id="deliveryField">
         <label>Dine In or Delivery</label>
         <div class="toggle-row">
           <span class="toggle-opt active" id="toggleDineIn">Dine In</span>
@@ -402,7 +593,7 @@ footer {
         </div>
       </div>
 
-      <div class="field">
+      <div class="field" id="roomField">
         <label>Room</label>
         <input type="text" id="roomInput" value="Dining Room" disabled>
       </div>
@@ -423,7 +614,7 @@ footer {
         <div class="tip-custom-note" id="tipCustomNote"></div>
       </div>
 
-      <div class="field">
+      <div class="field" id="commentsField">
         <label>Comments</label>
         <textarea id="commentsInput" placeholder="Extra cold milk, no crust, etc."></textarea>
       </div>
@@ -460,6 +651,10 @@ let deliveryType = "dine_in";
 let orderHistory = [];
 let tipMode = "none";
 let customTipPercent = null;
+let appMode = "diner";
+
+const FETCH_LOCATION_LABELS = { downstairs: "Downstairs", middle: "Middle Floor", room: "In Your Room" };
+let fetchLocation = "downstairs";
 
 function formatPrice(cents) {
   if (cents >= 100) return "$" + (cents / 100).toFixed(2);
@@ -469,6 +664,17 @@ function formatPrice(cents) {
 function displayPrice(item) {
   if (item.custom && item.price === null) return "Determined by Lukas";
   return formatPrice(item.price * item.qty);
+}
+
+function setAppMode(mode) {
+  appMode = mode;
+  document.getElementById("dinerSection").classList.toggle("mode-hidden", mode !== "diner");
+  document.getElementById("fetchSection").classList.toggle("mode-hidden", mode !== "fetch");
+  document.getElementById("tabDiner").classList.toggle("active", mode === "diner");
+  document.getElementById("tabFetch").classList.toggle("active", mode === "fetch");
+  document.getElementById("deliveryField").classList.toggle("mode-hidden", mode === "fetch");
+  document.getElementById("roomField").classList.toggle("mode-hidden", mode === "fetch");
+  document.getElementById("commentsField").classList.toggle("mode-hidden", mode === "fetch");
 }
 
 function renderMenu() {
@@ -505,33 +711,33 @@ function renderMenu() {
   const addLink = document.createElement("div");
   addLink.className = "add-custom";
   addLink.textContent = "+ Add a custom item";
-  addLink.addEventListener("click", toggleCustomForm);
+  addLink.addEventListener("click", () => toggleCustomForm("menuCustomForm"));
   container.appendChild(addLink);
 
   const form = document.createElement("div");
   form.className = "custom-form";
-  form.id = "customForm";
+  form.id = "menuCustomForm";
   form.innerHTML =
-    '<input type="text" class="custom-name" id="customName" placeholder="Item name">' +
+    '<input type="text" class="custom-name" id="menuCustomName" placeholder="Item name">' +
     '<span class="custom-price-note">Determined by Lukas</span>' +
-    '<button id="customAddBtn">Add</button>';
+    '<button id="menuCustomAddBtn">Add</button>';
   container.appendChild(form);
 
-  document.getElementById("customAddBtn").addEventListener("click", addCustomItem);
+  document.getElementById("menuCustomAddBtn").addEventListener("click", () => addCustomItem("menuCustomName", "menuCustomForm"));
 }
 
-function toggleCustomForm() {
-  document.getElementById("customForm").classList.toggle("open");
+function toggleCustomForm(formId) {
+  document.getElementById(formId).classList.toggle("open");
 }
 
-function addCustomItem() {
-  const nameField = document.getElementById("customName");
+function addCustomItem(inputId, formId) {
+  const nameField = document.getElementById(inputId);
   const name = nameField.value.trim();
   if (!name) return;
   const id = "custom_" + Date.now();
   addToCart(id, name, null, true);
   nameField.value = "";
-  document.getElementById("customForm").classList.remove("open");
+  document.getElementById(formId).classList.remove("open");
 }
 
 function addToCart(id, name, price, custom) {
@@ -548,6 +754,26 @@ function changeQty(id, delta) {
   cart[id].qty += delta;
   if (cart[id].qty <= 0) delete cart[id];
   renderReceipt();
+}
+
+function setFetchLocation(loc) {
+  fetchLocation = loc;
+  document.querySelectorAll(".fetch-loc-opt").forEach(el => {
+    el.classList.toggle("active", el.dataset.loc === loc);
+  });
+}
+
+function addFetchItem() {
+  const desc = document.getElementById("fetchDesc").value.trim();
+  if (!desc) {
+    showError("Say what you need fetched first.");
+    return;
+  }
+  clearError();
+  const id = "fetch_" + Date.now();
+  const name = "Fetch: " + desc + " (" + FETCH_LOCATION_LABELS[fetchLocation] + ")";
+  addToCart(id, name, null, true);
+  document.getElementById("fetchDesc").value = "";
 }
 
 function calcSubtotal() {
@@ -660,7 +886,7 @@ async function sendOrder() {
   clearError();
   const name = document.getElementById("nameInput").value.trim();
   const room = document.getElementById("roomInput").value.trim();
-  const comments = document.getElementById("commentsInput").value.trim();
+  const comments = appMode === "fetch" ? "" : document.getElementById("commentsInput").value.trim();
   const items = Object.values(cart);
 
   if (items.length === 0) {
@@ -671,7 +897,7 @@ async function sendOrder() {
     showError("Enter a name.");
     return;
   }
-  if (deliveryType === "delivery" && !room) {
+  if (appMode === "diner" && deliveryType === "delivery" && !room) {
     showError("Enter which room it's going to.");
     return;
   }
@@ -687,8 +913,9 @@ async function sendOrder() {
   const order = {
     id: "ord_" + Date.now(),
     name,
-    room: deliveryType === "dine_in" ? "Dining Room" : room,
-    deliveryType,
+    room: appMode === "fetch" ? "\u2014" : (deliveryType === "dine_in" ? "Dining Room" : room),
+    deliveryType: appMode === "fetch" ? "fetch" : deliveryType,
+    mode: appMode,
     items: items.map(i => ({ name: i.name, price: i.price, qty: i.qty, custom: !!i.custom })),
     subtotal,
     tipPercent,
@@ -728,12 +955,12 @@ async function sendToDiscord(order) {
   const tipLabel = order.tipPercent > 0 ? order.tipPercent + "% (" + formatPrice(order.tipAmount) + ")" : "None";
   const payload = {
     embeds: [{
-      title: "New Order",
+      title: order.mode === "fetch" ? "New Fetch Request" : "New Order",
       color: 13189706,
       fields: [
         { name: "Name", value: order.name, inline: true },
         { name: "Room", value: order.room, inline: true },
-        { name: "Type", value: order.deliveryType === "dine_in" ? "Dine In" : "Delivery", inline: true },
+        { name: "Type", value: order.deliveryType === "fetch" ? "Fetch" : (order.deliveryType === "dine_in" ? "Dine In" : "Delivery"), inline: true },
         { name: "Items", value: lines },
         { name: "Subtotal", value: formatPrice(order.subtotal), inline: true },
         { name: "Tip", value: tipLabel, inline: true },
@@ -815,6 +1042,21 @@ function renderHistory() {
   });
 }
 
+document.getElementById("splashDinerBtn").addEventListener("click", () => {
+  setAppMode("diner");
+  document.getElementById("splashScreen").classList.add("hidden");
+  document.body.classList.remove("no-scroll");
+});
+document.getElementById("splashFetchBtn").addEventListener("click", () => {
+  setAppMode("fetch");
+  document.getElementById("splashScreen").classList.add("hidden");
+  document.body.classList.remove("no-scroll");
+});
+
+document.querySelectorAll(".mode-tab").forEach(el => {
+  el.addEventListener("click", () => setAppMode(el.dataset.mode));
+});
+
 document.getElementById("toggleDineIn").addEventListener("click", () => setDeliveryType("dine_in"));
 document.getElementById("toggleDelivery").addEventListener("click", () => setDeliveryType("delivery"));
 document.getElementById("sendBtn").addEventListener("click", sendOrder);
@@ -837,6 +1079,12 @@ document.getElementById("tipCustomInput").addEventListener("blur", (e) => {
   }
 });
 
+document.querySelectorAll(".fetch-loc-opt").forEach(el => {
+  el.addEventListener("click", () => setFetchLocation(el.dataset.loc));
+});
+document.getElementById("fetchAddBtn").addEventListener("click", addFetchItem);
+
+setAppMode("diner");
 renderReceipt();
 loadConfig();
 loadMenu();
