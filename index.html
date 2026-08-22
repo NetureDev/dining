@@ -637,7 +637,7 @@ function saveOrderLocally(order) {
 
 async function loadConfig() {
   try {
-    const res = await fetch("config.json");
+    const res = await fetch("/config.json");
     if (res.ok) {
       const data = await res.json();
       WEBHOOK_URL = data.webhookUrl || "";
@@ -647,7 +647,7 @@ async function loadConfig() {
 
 async function loadMenu() {
   try {
-    const res = await fetch("menu.json");
+    const res = await fetch("/menu.json");
     if (res.ok) MENU = await res.json();
   } catch (e) {
     MENU = [];
