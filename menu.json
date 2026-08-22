@@ -3,7 +3,7 @@
     "category": "Cereal & Breakfast",
     "items": [
       { "id": "cereal", "name": "Cereal", "desc": "your pick of the box", "price": 25, "inStock": true },
-      { "id": "pancakes", "name": "Pancakes", "desc": "stack of three, syrup included", "price": 75, "inStock": true },
+      { "id": "pancakes", "name": "Pancakes", "desc": "one pancake, syrup included", "price": 25, "inStock": true },
       { "id": "toast", "name": "Toast", "desc": "butter or jam", "price": 15, "inStock": true }
     ]
   },
