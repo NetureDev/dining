@@ -21,7 +21,7 @@
       { "id": "water", "name": "water", "desc": "fresh glass", "price": 5, "inStock": true },
       { "id": "cocoa", "name": "Hot Cocoa", "desc": "hmm YUMMY!", "price": 20, "inStock": true },
       { "id": "shirley", "name": "Shirely Temple", "desc": "sprite and sauce!", "price": 25, "inStock": true },
-      { "id": "sprite", "name": "Sprite", "desc": "WHY IS IT SPICY", "price": 20, "inStock": true },
+      { "id": "sprite", "name": "Sprite", "desc": "WHY IS IT SPICY", "price": 20, "inStock": true }
     ]
   }
 ]
