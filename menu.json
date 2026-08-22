@@ -1,0 +1,24 @@
+[
+  {
+    "category": "Cereal & Breakfast",
+    "items": [
+      { "id": "cereal", "name": "Cereal", "desc": "your pick of the box", "price": 25, "inStock": true },
+      { "id": "pancakes", "name": "Pancakes", "desc": "stack of three, syrup included", "price": 75, "inStock": true },
+      { "id": "toast", "name": "Toast", "desc": "butter or jam", "price": 15, "inStock": true }
+    ]
+  },
+  {
+    "category": "Snacks",
+    "items": [
+      { "id": "chips", "name": "Chips", "desc": "small bag, salted", "price": 30, "inStock": true },
+      { "id": "popcorn", "name": "Popcorn", "desc": "butter flavored", "price": 20, "inStock": true }
+    ]
+  },
+  {
+    "category": "Drinks",
+    "items": [
+      { "id": "oj", "name": "Orange Juice", "desc": "fresh glass", "price": 50, "inStock": true },
+      { "id": "cocoa", "name": "Hot Cocoa", "desc": "marshmallows on request", "price": 40, "inStock": true }
+    ]
+  }
+]
